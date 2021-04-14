@@ -21,6 +21,7 @@ conan_cmake_run(
   REQUIRES pybind11/2.6.2 libvpx/1.9.0
   BASIC_SETUP
   CMAKE_TARGETS
+  BUILD missing
 )
 
 # Create libvpx python library
