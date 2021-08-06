@@ -17,20 +17,27 @@ endif()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 
 # Get pybind11 and libvpx from conan
-conan_cmake_run(
-  REQUIRES pybind11/2.6.2 libvpx/1.9.0
-  BASIC_SETUP
-  CMAKE_TARGETS
+conan_cmake_configure(
+  REQUIRES pybind11/2.7.0 libvpx/1.9.0
+  GENERATORS cmake_find_package
+)
+conan_cmake_autodetect(settings)
+conan_cmake_install(
+  PATH_OR_REFERENCE .
   BUILD missing
+  REMOTE conancenter
+  SETTINGS ${settings}
 )
 
 # Create libvpx python library
+find_package(pybind11 REQUIRED)
+find_package(libvpx REQUIRED)
 pybind11_add_module(${PROJECT_NAME} "pylibvpx.cpp" "vpxcommon.hpp" "vpxcommon_impl.hpp")
   set_target_properties(${PROJECT_NAME} PROPERTIES
   CXX_STANDARD 20
   CXX_STANDARD_REQUIRED ON
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE CONAN_PKG::pybind11 CONAN_PKG::libvpx)
+target_link_libraries(${PROJECT_NAME} PRIVATE libvpx::libvpx)
 target_compile_definitions(${PROJECT_NAME} PRIVATE MODULE_NAME=pylibvpx MODULE_VERSION=0.1)
 
 option(WITH_VPX_ENCODER "With vpx encoder" ON)
