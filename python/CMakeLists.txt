@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(pylibvpx LANGUAGES CXX)
+project(pylibvpx LANGUAGES CXX VERSION "1.0")
 
 # Default to Release build type
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
@@ -38,7 +38,10 @@ pybind11_add_module(${PROJECT_NAME} "pylibvpx.cpp" "vpxcommon.hpp" "vpxcommon_im
   CXX_STANDARD_REQUIRED ON
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE libvpx::libvpx)
-target_compile_definitions(${PROJECT_NAME} PRIVATE MODULE_NAME=pylibvpx MODULE_VERSION=0.1)
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+  MODULE_NAME=${PROJECT_NAME}
+  MODULE_VERSION=${PROJECT_VERSION}
+)
 
 option(WITH_VPX_ENCODER "With vpx encoder" ON)
 if(WITH_VPX_ENCODER)

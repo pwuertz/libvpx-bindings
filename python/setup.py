@@ -1,11 +1,13 @@
-from setuptools import find_packages, setup
+from setuptools import setup
 from cmake_build_extension import BuildExtension, CMakeExtension
 
 setup(
     name="pylibvpx",
-    version="0.1",
-    author="Peter Würtz",
     description="Python bindings for libvpx",
+    url="https://github.com/pwuertz/libvpx-bindings",
+    version="1.0",
+    author="Peter Würtz",
+    author_email="pwuertz@gmail.com",
     ext_modules=[CMakeExtension(
         name="pylibvpx",
         source_dir=".",
