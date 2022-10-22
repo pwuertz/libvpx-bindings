@@ -29,8 +29,8 @@ py::array_t<uint8_t, py::array::c_style> py_vpxe_yplane(Vpx::Encoder& encoder)
 {
     const Vpx::Plane plane = encoder.yPlane();
     return py::array_t<uint8_t, py::array::c_style>(
-        std::vector<ssize_t>{plane.height, plane.width},
-        std::vector<ssize_t>{plane.stride, 1},
+        std::vector<Py_ssize_t>{plane.height, plane.width},
+        std::vector<Py_ssize_t>{plane.stride, 1},
         plane.data
     );
 }
@@ -48,8 +48,8 @@ void py_vpxd_decode(Vpx::Decoder& decoder, const py::bytes& packet, const py::ob
     PyBytes_AsStringAndSize(packet.ptr(), reinterpret_cast<char**>(&data), &size);
     const auto frameHandler = [&](const Vpx::Plane& plane) {
         py::array_t<uint8_t, py::array::c_style> img(
-            std::vector<ssize_t>{plane.height, plane.width},
-            std::vector<ssize_t>{plane.stride, 1},
+            std::vector<Py_ssize_t>{plane.height, plane.width},
+            std::vector<Py_ssize_t>{plane.stride, 1},
             plane.data
         );
         fn(img);

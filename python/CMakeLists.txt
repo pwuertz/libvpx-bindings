@@ -22,6 +22,10 @@ conan_cmake_configure(
   GENERATORS cmake_find_package
 )
 conan_cmake_autodetect(settings)
+if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  # MSVC 2022 can't build libvpx -> donwload binary for MSVC 2019
+  list(APPEND settings "libvpx:compiler.version=16")
+endif()
 conan_cmake_install(
   PATH_OR_REFERENCE .
   BUILD missing
