@@ -18,7 +18,7 @@ include(${CMAKE_BINARY_DIR}/conan.cmake)
 
 # Get pybind11 and libvpx from conan
 conan_cmake_configure(
-  REQUIRES pybind11/2.10.0 libvpx/1.9.0
+  REQUIRES pybind11/2.10.4 libvpx/1.11.0
   GENERATORS cmake_find_package
 )
 conan_cmake_autodetect(settings)
