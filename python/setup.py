@@ -8,7 +8,7 @@ long_description_content_type="text/markdown"
 
 setup(
     name="pylibvpx",
-    version="1.0",
+    version="1.0.1",
     author="Peter Würtz",
     author_email="pwuertz@gmail.com",
     url="https://github.com/pwuertz/libvpx-bindings",

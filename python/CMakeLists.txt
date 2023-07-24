@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(pylibvpx LANGUAGES CXX VERSION "1.0")
+project(pylibvpx LANGUAGES CXX VERSION "1.0.1")
 
 # Default to Release build type
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
@@ -15,6 +15,12 @@ if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
        "${CMAKE_BINARY_DIR}/conan.cmake" TLS_VERIFY ON)
 endif()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+if(WIN32)
+  # Prevent pybind11 from sharing resources with other, potentially ABI incompatible modules
+  # https://github.com/pybind/pybind11/issues/2898
+  add_definitions(-DPYBIND11_COMPILER_TYPE="_${PROJECT_NAME}_abi")
+endif()
 
 # Get pybind11 and libvpx from conan
 conan_cmake_configure(
