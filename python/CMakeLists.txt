@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(pylibvpx LANGUAGES CXX VERSION "1.0.1")
+project(pylibvpx LANGUAGES CXX VERSION "1.0.2")
 
 # Default to Release build type
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
