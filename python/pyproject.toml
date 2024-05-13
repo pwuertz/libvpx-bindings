@@ -1,3 +1,22 @@
 [build-system]
-requires = ["setuptools>=56.0", "cmake_build_extension", "wheel", "conan~=1.50"]
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core >=0.9", "typing_extensions; python_version < '3.11'", "conan<2"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pylibvpx"
+version = "1.0.3"
+description = "Python bindings for libvpx"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "Peter Würtz", email = "pwuertz@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Homepage = "https://github.com/pwuertz/libvpx-bindings"
+
+[tool.scikit-build]
+wheel.py-api = "cp312"

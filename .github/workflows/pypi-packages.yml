@@ -11,16 +11,16 @@ jobs:
   build-sdist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
       - name: Build sdist package
         working-directory: ./python
         run: |
           python -m pip install --upgrade pip build
           python -m build --sdist
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: packages
+          name: packages-src
           path: "python/dist/*.tar.gz"
 
   build-win64-wheels:
@@ -29,9 +29,9 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Build wheel for python ${{ matrix.python-version }}
@@ -41,9 +41,9 @@ jobs:
           python -m build --wheel
         env:
           CMAKE_GENERATOR: Ninja
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: packages
+          name: packages-win-py${{ matrix.python-version }}
           path: "python/dist/*.whl"
 
   pypi-publish:
@@ -54,10 +54,11 @@ jobs:
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
     steps:
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4
       with:
-        name: packages
-        path: python/dist
+        path: dist
+        pattern: packages-*
+        merge-multiple: true
     - name: Test PyPI publish
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
