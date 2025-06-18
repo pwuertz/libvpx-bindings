@@ -14,20 +14,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
       - name: Build sdist package
-        working-directory: ./python
         run: |
           python -m pip install --upgrade pip build
           python -m build --sdist
       - uses: actions/upload-artifact@v4
         with:
           name: packages-src
-          path: "python/dist/*.tar.gz"
+          path: "dist/*.tar.gz"
 
   build-win64-wheels:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
       - uses: ilammy/msvc-dev-cmd@v1
@@ -35,7 +34,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Build wheel for python ${{ matrix.python-version }}
-        working-directory: ./python
         run: |
           python -m pip install --upgrade pip build ninja
           python -m build --wheel
@@ -44,7 +42,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: packages-win-py${{ matrix.python-version }}
-          path: "python/dist/*.whl"
+          path: "dist/*.whl"
 
   pypi-publish:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
@@ -63,9 +61,10 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
-        packages-dir: python/dist
+        packages-dir: dist
+        attestations: false
         skip-existing: true
     - name: PyPI publish
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
-        packages-dir: python/dist
+        packages-dir: dist

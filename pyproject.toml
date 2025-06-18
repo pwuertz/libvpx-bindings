@@ -1,0 +1,47 @@
+[project]
+name = "pylibvpx"
+version = "1.0.3"
+description = "Python bindings for libvpx"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Peter Würtz", email = "pwuertz@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Homepage = "https://github.com/pwuertz/libvpx-bindings"
+
+[build-system]
+requires = ["scikit-build-core", "nanobind", "conan"]
+build-backend = "scikit_build_core.build"
+
+[tool.uv]
+no-build-isolation-package = ["pylibvpx"]
+
+[tool.scikit-build]
+wheel.py-api = "cp312"
+build-dir = "build/{wheel_tag}"
+editable.rebuild = true
+cmake.version = "CMakeLists.txt"
+cmake.args = ["--preset", "default"]
+
+[dependency-groups]
+dev = [
+    "conan",
+    "nanobind>=2.7.0",
+    "numpy",
+    "pytest>=8",
+    "scikit-build-core>=0.11",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.mypy]
+files = ["./tests"]
